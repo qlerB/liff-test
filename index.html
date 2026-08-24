@@ -32,7 +32,9 @@
             }
 
             const profile = await liff.getProfile();
-            console.log(profile);
+            console.log("LINE User ID:", profile.userId);
+            console.log("Display Name:", profile.displayName);
+            console.log("Picture URL:", profile.pictureUrl);
 
             document.getElementById("profile").innerHTML = `
                 <h2>สวัสดี ${profile.displayName}</h2>

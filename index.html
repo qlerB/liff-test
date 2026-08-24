@@ -32,6 +32,7 @@
             }
 
             const profile = await liff.getProfile();
+            console.log(profile);
 
             document.getElementById("profile").innerHTML = `
                 <h2>สวัสดี ${profile.displayName}</h2>

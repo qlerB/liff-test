@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LIFF Test</title>
+</head>
+
+<body>
+
+    <h1>LIFF Test</h1>
+
+    <button id="login">Login with LINE</button>
+
+    <div id="profile"></div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <script>
+
+        async function main() {
+
+            await liff.init({
+                liffId: "2011217255-PUqd4FGU"
+            });
+
+            if (!liff.isLoggedIn()) {
+                document.getElementById("login").onclick = () => {
+                    liff.login();
+                };
+
+                return;
+            }
+
+            const profile = await liff.getProfile();
+
+            document.getElementById("profile").innerHTML = `
+                <h2>สวัสดี ${profile.displayName}</h2>
+                <p>LINE User ID: ${profile.userId}</p>
+                <img src="${profile.pictureUrl}" width="100">
+            `;
+        }
+
+        main();
+
+    </script>
+
+</body>
+</html>

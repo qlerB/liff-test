@@ -20,5 +20,8 @@
   "homepage": "https://github.com/qlerB/liff-test#readme",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@vercel/node": "^7.0.0"
   }
 }

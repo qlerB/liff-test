@@ -14,22 +14,49 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { userId, displayName, pictureUrl } = req.body;
+        const { idToken } = req.body;
 
-        if (!userId) {
+        if (!idToken) {
             return res.status(400).json({
                 success: false,
-                message: "userId is required"
+                message: "idToken is required"
             });
         }
+
+        const verifyResponse = await fetch(
+            "https://api.line.me/oauth2/v2.1/verify",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    id_token: idToken,
+                    client_id: "2011217255-PUqd4FGU"
+                })
+            }
+        );
+
+        const lineData = await verifyResponse.json();
+
+        if (!verifyResponse.ok) {
+            console.error("LINE verification failed:", lineData);
+
+            return res.status(401).json({
+                success: false,
+                message: "Invalid LINE ID token"
+            });
+        }
+
+        const { sub, name, picture } = lineData;
 
         const { data, error } = await supabase
             .from("users")
             .upsert(
                 {
-                    line_user_id: userId,
-                    display_name: displayName,
-                    picture_url: pictureUrl
+                    line_user_id: sub,
+                    display_name: name,
+                    picture_url: picture
                 },
                 {
                     onConflict: "line_user_id"
@@ -43,7 +70,7 @@ export default async function handler(req, res) {
 
             return res.status(500).json({
                 success: false,
-                message: "Database error",
+                message: "Database error"
             });
         }
 

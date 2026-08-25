@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/qlerB/liff-test#readme",
   "dependencies": {
+    "@line/bot-sdk": "^11.2.0",
     "@supabase/supabase-js": "^2.112.4",
     "express": "^5.2.1"
   },

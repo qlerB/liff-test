@@ -30,6 +30,23 @@
 
             const idToken = liff.getIDToken();
 
+            const meResponse = await fetch(
+                "https://liff-test-mu.vercel.app/api/me",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idToken: idToken
+                    })
+                }
+            );
+            
+            const meResult = await meResponse.json();
+            
+            console.log("ME:", meResult);
+
             const response = await fetch("https://liff-test-mu.vercel.app/api/login", {
                 method: "POST",
                 headers: {

@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { verifyLineIdToken } from "./_lib/lineAuth.js";
 
 const supabase = createClient(
     process.env.SUPABASE_URL,
@@ -16,39 +17,9 @@ export default async function handler(req, res) {
     try {
         const { idToken } = req.body;
 
-        if (!idToken) {
-            return res.status(400).json({
-                success: false,
-                message: "idToken is required"
-            });
-        }
+        const lineUser = await verifyLineIdToken(idToken);
 
-        const verifyResponse = await fetch(
-            "https://api.line.me/oauth2/v2.1/verify",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({
-                    id_token: idToken,
-                    client_id: "2011217255"
-                })
-            }
-        );
-
-        const lineData = await verifyResponse.json();
-
-        if (!verifyResponse.ok) {
-            console.error("LINE verification failed:", lineData);
-
-            return res.status(401).json({
-                success: false,
-                message: "Invalid LINE ID token"
-            });
-        }
-
-        const { sub, name, picture } = lineData;
+        const { sub, name, picture } = lineUser;
 
         const { data, error } = await supabase
             .from("users")
@@ -82,9 +53,9 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error(error);
 
-        return res.status(500).json({
+        return res.status(401).json({
             success: false,
-            message: "Server error"
+            message: error.message
         });
     }
 }

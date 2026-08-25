@@ -29,25 +29,6 @@
             const profile = await liff.getProfile();
 
             const idToken = liff.getIDToken();
-
-            const meResponse = await fetch(
-                "https://liff-test-mu.vercel.app/api/me",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        idToken: idToken
-                    })
-                }
-            );
-            
-            const meResult = await meResponse.json();
-
-            document.getElementById("profile").innerHTML += `
-                <pre>${JSON.stringify(meResult, null, 2)}</pre>
-            `;
             
             console.log("ME:", meResult);
 

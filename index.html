@@ -44,6 +44,10 @@
             );
             
             const meResult = await meResponse.json();
+
+            document.getElementById("profile").innerHTML += `
+                <pre>${JSON.stringify(meResult, null, 2)}</pre>
+            `;
             
             console.log("ME:", meResult);
 

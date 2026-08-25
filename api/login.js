@@ -32,7 +32,7 @@ export default async function handler(req, res) {
                 },
                 body: new URLSearchParams({
                     id_token: idToken,
-                    client_id: "2011217255-PUqd4FGU"
+                    client_id: "2011217255"
                 })
             }
         );

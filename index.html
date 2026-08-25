@@ -46,16 +46,15 @@
             });
 
             const result = await response.json();
-
-            console.log("Backend response:", result);
+                    
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || "Login failed");
+            }
             
-            console.log("LINE User ID:", profile.userId);
-            console.log("Display Name:", profile.displayName);
-            console.log("Picture URL:", profile.pictureUrl);
+            console.log("User saved:", result.user);
 
             document.getElementById("profile").innerHTML = `
                 <h2>สวัสดี ${profile.displayName}</h2>
-                <p>LINE User ID: ${profile.userId}</p>
                 <img src="${profile.pictureUrl}" width="100">
             `;
         }

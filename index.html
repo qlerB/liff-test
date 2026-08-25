@@ -9,8 +9,6 @@
 
     <h1>LIFF Test</h1>
 
-    <button id="login">Login with LINE</button>
-
     <div id="profile"></div>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -24,10 +22,7 @@
             });
 
             if (!liff.isLoggedIn()) {
-                document.getElementById("login").onclick = () => {
-                    liff.login();
-                };
-
+                liff.login();
                 return;
             }
 
